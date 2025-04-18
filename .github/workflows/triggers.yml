@@ -1,0 +1,45 @@
+name: Workflow Triggers
+run-name: Estos son Triggers
+on:
+  pull_request:
+    types: [opened, reopened]
+    paths:
+      - '**.py'
+  workflow_dispatch:
+    inputs:
+      proteina:
+        description: 'Elige una proteina'
+        default: 'pollo'
+        required: true
+        type: choice
+        options:
+        - pollo
+        - carne
+        - pescado
+      nombre:
+        description: 'Cual es tu nombre'
+        default: Diego
+        required: true
+        type: string
+jobs:
+  job-manual:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Definir variable
+      run: echo "USERNAME=${{ inputs.nombre }}" >> $GITHUB_ENV
+    - name: Correr script
+      run: python hola_mundo.py
+    - name: Corre script 2
+      run: echo "${{ inputs.nombre }} cena ${{ inputs.nombre }}"
+  job-default:
+    if: ${{ github.event_name != 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Definir variable
+      run: echo "USERNAME=${{ github.actor }}" >> $GITHUB_ENV
+    - name: Correr script
+      run: python hola_mundo.py
