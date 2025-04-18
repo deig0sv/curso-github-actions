@@ -32,7 +32,7 @@ jobs:
     - name: Correr script
       run: python hola_mundo.py
     - name: Corre script 2
-      run: echo "${{ inputs.nombre }} cena ${{ inputs.nombre }}"
+      run: echo "${{ inputs.nombre }} cena ${{ inputs.proteina }}"
   job-default:
     if: ${{ github.event_name != 'workflow_dispatch' }}
     runs-on: ubuntu-latest
